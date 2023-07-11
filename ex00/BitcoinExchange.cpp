@@ -6,7 +6,7 @@
 /*   By: ycornamu <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 17:58:27 by ycornamu          #+#    #+#             */
-/*   Updated: 2023/07/08 17:41:27 by ycornamu         ###   ########.fr       */
+/*   Updated: 2023/07/11 18:12:00 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void BitcoinExchange::run(void)
 {
 	std::ifstream f;
 
-	f.open(_file, std::ios::in);
+	f.open(_file.c_str(), std::ios::in);
 	if (f.fail())
 	{
 		std::cerr << "Error: could not open file: " << _file << std::endl;
@@ -61,9 +61,9 @@ void BitcoinExchange::run(void)
 
 	while (std::getline(f, line))
 	{
-		if (line.find("data") != std::string::npos)
+		if (line.find("date") != std::string::npos)
 			continue;
-		if ((date_str = line.substr(0, line.find(" | "))).empty())
+		if ((date_str = line.substr(0, line.find(" | "))).length() != 10)
 		{
 			std::cerr << "Error: date bad input => " << date_str << std::endl;
 			continue;
@@ -107,7 +107,7 @@ std::map<int, double> getCsvLines(std::string file, std::string sep)
 	std::string	line, date_str, price_str;
 	int		date, day, month, year;
 
-	datafile.open(file, std::ios::in);
+	datafile.open(file.c_str(), std::ios::in);
 	if (datafile.fail())
 	{
 		std::cerr << "Error: could not open file: " << file << std::endl;
