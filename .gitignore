@@ -1,2 +1,5 @@
 *.o
 *.swp
+**/input.txt
+**/data.csv
+**/btc
