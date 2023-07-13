@@ -6,7 +6,7 @@
 /*   By: ycornamu <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 15:25:17 by ycornamu          #+#    #+#             */
-/*   Updated: 2023/07/11 15:25:23 by ycornamu         ###   ########.fr       */
+/*   Updated: 2023/07/13 11:54:25 by ycornamu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,15 @@ void RPNCalc(std::string const &rpn)
 			else if (rpn[i] == '-')
 				st.push(a - b);
 			else if (rpn[i] == '/')
-				st.push(a / b);
+			{
+				if (b == 0)
+				{
+					std::cout << "Error: division by 0" << std::endl;
+					return;
+				}
+				else
+					st.push(a / b);
+			}
 			else if (rpn[i] == '*')
 				st.push(a * b);
 		}
