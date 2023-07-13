@@ -6,7 +6,7 @@
 /*   By: ycornamu <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 15:25:17 by ycornamu          #+#    #+#             */
-/*   Updated: 2023/07/13 12:28:57 by ycornamu         ###   ########.fr       */
+/*   Updated: 2023/07/13 13:07:28 by ycornamu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,20 @@ void RPNCalc(std::string const &rpn)
 
 	while(std::getline(iss, word, ' '))
 	{
-		if (is_number(word))
+		if (word.length() == 0)
+			continue;
+		else if (is_number(word))
 		{
+			if (std::atof(word.c_str()) > INT_MAX)
+			{
+				std::cout << "Error: number too high." << std::endl;
+				return;
+			}
+			else if (std::atof(word.c_str()) < INT_MIN)
+			{
+				std::cout << "Error: number too low." << std::endl;
+				return;
+			}
 			st.push(std::stoi(word));
 			continue;
 		}
@@ -76,7 +88,10 @@ bool is_operator(std::string s)
 
 bool is_number(std::string s)
 {
-	for (size_t i = 0; i < s.length(); i++)
+	size_t start = 0;
+	if (s[0] == '-' && s.length() > 1)
+		start++;
+	for (size_t i = start; i < s.length(); i++)
 		if (s[i] < '0' || s[i] > '9')
 			return false;
 	return true;
