@@ -6,7 +6,7 @@
 /*   By: ycornamu <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 18:05:29 by ycornamu          #+#    #+#             */
-/*   Updated: 2023/07/08 17:46:55 by ycornamu         ###   ########.fr       */
+/*   Updated: 2023/07/13 11:42:34 by ycornamu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ class BitcoinExchange
 };
 
 std::map<int, double>	getCsvLines(std::string file, std::string sep);
-double 					findValue(std::map<int, double> data, int date);
+double * 				findValue(std::map<int, double> data, int date);
+bool 					checkDate(int date);
 
 #endif
