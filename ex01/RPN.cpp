@@ -6,29 +6,30 @@
 /*   By: ycornamu <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 15:25:17 by ycornamu          #+#    #+#             */
-/*   Updated: 2023/07/13 11:54:25 by ycornamu         ###   ########.fr       */
+/*   Updated: 2023/07/13 12:28:57 by ycornamu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <string>
 #include <stack>
 #include <iostream>
+#include <sstream>
 #include "RPN.hpp"
 
 void RPNCalc(std::string const &rpn)
 {
 	std::stack<int> st;
+	std::istringstream iss(rpn);
+	std::string word;
 
-	for (size_t i = 0; i < rpn.length(); i++)
+	while(std::getline(iss, word, ' '))
 	{
-		if(rpn[i] == ' ')
-			continue;
-		else if (rpn[i] <= '9' && rpn[i] >= '0')
+		if (is_number(word))
 		{
-			st.push(rpn[i] - '0');
+			st.push(std::stoi(word));
 			continue;
 		}
-		else if (rpn[i] == '+' || rpn[i] == '-' || rpn[i] == '/' || rpn[i] == '*')
+		else if (is_operator(word))
 		{
 			if (st.size() < 2)
 			{
@@ -37,11 +38,11 @@ void RPNCalc(std::string const &rpn)
 			}
 			int b = st.top(); st.pop();
 			int a = st.top(); st.pop();
-			if (rpn[i] == '+')
+			if (word == "+")
 				st.push(a + b);
-			else if (rpn[i] == '-')
+			else if (word == "-")
 				st.push(a - b);
-			else if (rpn[i] == '/')
+			else if (word == "/")
 			{
 				if (b == 0)
 				{
@@ -51,7 +52,7 @@ void RPNCalc(std::string const &rpn)
 				else
 					st.push(a / b);
 			}
-			else if (rpn[i] == '*')
+			else if (word == "*")
 				st.push(a * b);
 		}
 		else
@@ -66,4 +67,17 @@ void RPNCalc(std::string const &rpn)
 		return;
 	}
 	std::cout << st.top() << std::endl;
+}
+
+bool is_operator(std::string s)
+{
+	return (s == "+" || s == "-" || s == "*" || s == "/");
+}
+
+bool is_number(std::string s)
+{
+	for (size_t i = 0; i < s.length(); i++)
+		if (s[i] < '0' || s[i] > '9')
+			return false;
+	return true;
 }
